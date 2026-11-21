@@ -1,0 +1,51 @@
+import "params.flo" as params
+
+func setup(): @Tiles
+    tiles: @Tiles = new Tiles
+    tiles.land = '#'
+    tiles.water = '~'
+    return tiles
+end
+
+func index(x: int, y: int, width: int): int
+    return y * width + x
+end
+
+SEED: i64 = 1234
+
+func mod(a: i64, b: i64): i64
+    return a - (a / b) * b
+end
+
+func random(max: int): int
+    SEED = mod(SEED * 48271, 2147483647)
+    return mod(SEED, max as i64) as int
+end
+
+WIDTH: int = 4
+
+func main(): int
+    tiles: @Tiles = setup()
+
+    map: char[16]
+
+    for x in 0..WIDTH:
+        for y in 0..WIDTH:
+            choice: int = random(2)
+
+            if choice > 0:
+                map[index(x, y, WIDTH)] = tiles.land
+            else:
+                map[index(x, y, WIDTH)] = tiles.water
+            end
+        end
+    end
+
+    for x in 0..WIDTH:
+        for y in 0..WIDTH:
+            print(map[index(x, y, WIDTH)])
+        end
+
+        print("\n")
+    end
+end

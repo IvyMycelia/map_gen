@@ -1,0 +1,4 @@
+prop struct Tiles {
+    water: char,
+    land:  char,
+}
